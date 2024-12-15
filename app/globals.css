@@ -1,21 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  body {
+    font-family: "Inter", sans-serif;
+    scroll-behavior: smooth;
+    @apply antialiased;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body::-webkit-scrollbar,
+  body ::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  body::-webkit-scrollbar-track,
+  body ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  body::-webkit-scrollbar-thumb,
+  body ::-webkit-scrollbar-thumb {
+    background-color: #DBDBDE;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  body::-webkit-scrollbar-thumb:window-inactive,
+  body ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(66, 66, 66, 0.4);
+  }
+
+  input,
+  textarea {
+    @apply block w-full px-3 py-2 text-sm text-gray-900 rounded focus:outline-none border border-gray-300 focus:outline-transparent;
+  }
+
+  select {
+    @apply w-full pl-4 pr-8 py-2 border appearance-none rounded focus:outline-none
+    bg-no-repeat bg-[url('../public/img/dropdown-arrow.png')] border-gray-300;
+    background-position: 98%;
+    background-size: 24px;
+  }
+
+  button {
+    @apply inline-block cursor-pointer rounded-md px-4 py-1 w-fit;
+  }
+
+  svg {
+    @apply w-6 h-6 cursor-pointer
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .df,
+  .dfc,
+  .dc {
+    @apply flex gap-2;
+  }
+
+  .df, .dc {
+    @apply items-center;
+  }
+
+  .dfc {
+    @apply flex-col;
+  }
+
+  .dc {
+    @apply justify-center;
+  }
+
+  .scroll-y {
+    @apply flex-1 overflow-y-auto;
+  }
+  
+  .no-scroll-bar::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
 }
