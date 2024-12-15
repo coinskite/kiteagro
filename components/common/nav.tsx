@@ -3,8 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-import Hamburger from '../../svg/actions/hamburger.svg';
-import Close from '../../svg/actions/close.svg';
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
+
+// import Hamburger from '../../svg/actions/hamburger.svg';
+// import Close from '../../svg/actions/close.svg';
 
 function Nav() {
   const [open, setOpen] = useState(false)
@@ -42,12 +45,12 @@ function Nav() {
 
         <button
           onClick={() => setOpen(p => !p)}
-          className="p-0 md:hidden"
+          className="p-0 md:hidden text-[#22C954]"
         >
           {
             open
-              ? <Close className="fill-[#22C954]" />
-              : <Hamburger />
+              ? <IoClose />
+              : <GiHamburgerMenu />
           }
         </button>
       </div>
