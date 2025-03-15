@@ -1,10 +1,8 @@
 
 export const root = {
-  baseUrl: `http://localhost:5000/api`,
+  baseUrl: "https://coinskite-web-backend.onrender.com",
 }
 
-const endPoints = {
-
+export const endPoints = {
+  commodity: "/commodities",
 }
-
-export default endPoints

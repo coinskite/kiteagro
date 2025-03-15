@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import ClientWrapper from "@/components/common/client-arapper";
 import Footer from "@/components/common/footer";
 import Nav from "@/components/common/nav";
 
@@ -17,9 +18,11 @@ function RootLayout({ children }: props) {
   return (
     <html lang="en">
       <body>
-        <Nav />
-        {children}
-        <Footer />
+        <ClientWrapper>
+          <Nav />
+          {children}
+          <Footer />
+        </ClientWrapper>
       </body>
     </html>
   )

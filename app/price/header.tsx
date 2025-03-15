@@ -1,5 +1,18 @@
+import { useState } from "react"
 
-function Header() {
+type props = {
+  updateFilters: (params: any) => void
+}
+
+function Header({ updateFilters }: props) {
+  const [filters, setFilters] = useState({
+    commodity: "",
+    state: "",
+    market: "",
+    variety: "",
+    district: ""
+  })
+
   return (
     <div className="p-6">
       <h1 className="mb-4 text-sm xs:text-lg md:text-xl xl:text-2xl font-medium">
@@ -7,18 +20,30 @@ function Header() {
       </h1>
 
       <div className="grid md:grid-cols-4 gap-4">
-        <select className="text-[7px] xs:text-[8px] lg:text-xs xl:text-sm font-medium border border-[#22C954] shadow-[0_4px_4px_0_#00000040]">
+        <select
+          value={filters.commodity}
+          onChange={(e) => setFilters({ ...filters, commodity: e.target.value })}
+          className="text-[7px] xs:text-[8px] lg:text-xs xl:text-sm font-medium border border-[#22C954] shadow-[0_4px_4px_0_#00000040]"
+        >
           <option value="" disabled>Select Commodity</option>
           <option value="Paddy">Paddy</option>
           <option value="Maize">Maize</option>
         </select>
 
-        <select className="text-[7px] xs:text-[8px] lg:text-xs xl:text-sm font-medium border border-[#22C954] shadow-[0_4px_4px_0_#00000040]">
+        <select
+          value={filters.state}
+          onChange={(e) => setFilters({ ...filters, state: e.target.value })}
+          className="text-[7px] xs:text-[8px] lg:text-xs xl:text-sm font-medium border border-[#22C954] shadow-[0_4px_4px_0_#00000040]"
+        >
           <option value="" disabled>Select State</option>
           <option value="Tamilnadu">Tamilnadu</option>
         </select>
 
-        <select className="text-[7px] xs:text-[8px] lg:text-xs xl:text-sm font-medium border border-[#22C954] shadow-[0_4px_4px_0_#00000040]">
+        <select
+          value={filters.market}
+          onChange={(e) => setFilters({ ...filters, market: e.target.value })}
+          className="text-[7px] xs:text-[8px] lg:text-xs xl:text-sm font-medium border border-[#22C954] shadow-[0_4px_4px_0_#00000040]"
+        >
           <option value="" disabled>Select Market</option>
           <option value="Alangeyam">Alangeyam</option>
           <option value="Andimadom">Andimadom</option>
@@ -26,7 +51,10 @@ function Header() {
           <option value="Anthiyur">Anthiyur</option>
         </select>
 
-        <button className="w-full text-[10px] xs:text-xs xl:text-sm font-medium bg-[#22C954] text-white">
+        <button
+          className="w-full text-[10px] xs:text-xs xl:text-sm font-medium bg-[#22C954] text-white"
+          onClick={() => updateFilters(filters)}
+        >
           Search
         </button>
       </div>

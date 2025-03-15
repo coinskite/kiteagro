@@ -1,18 +1,11 @@
+import { Loader } from "lucide-react";
 
-const list = Array(15).fill("").map((d, i) => ({
-  key: i,
-  commodity: "Paddy",
-  variety: "Hybrid",
-  arrivalDate: "18-03-2023",
-  state: "Tamil Nadu",
-  district: "Theni",
-  market: "Theni",
-  maxPrice: "2270 / Quintal",
-  avgPrice: "2270 / Quintal",
-  minPrice: "2270 / Quintal",
-}))
+type props = {
+  list: any[]
+  isLoading: boolean
+}
 
-function Table() {
+function Table({ list, isLoading }: props) {
   return (
     <div className="p-6 overflow-scroll">
       <table className="w-full table-fixed">
@@ -32,17 +25,41 @@ function Table() {
 
         <tbody>
           {
-            list.map(l => (
-              <tr key={l.key} className="odd:bg-[#F8F8F8] text-[4px] xs:text-[6px] sm:text-[7px] md:text-[8px] lg:text-[10px] xl:text-xs font-medium">
-                <td className="px-4 py-2 text-[#32A071]">{l.commodity}</td>
-                <td className="px-4 py-2 text-[#32A071]">{l.variety}</td>
-                <td className="px-4 py-2">{l.arrivalDate}</td>
-                <td className="px-4 py-2">{l.state}</td>
-                <td className="px-4 py-2">{l.district}</td>
-                <td className="px-4 py-2">{l.market}</td>
-                <td className="px-4 py-2">₹ {l.maxPrice}</td>
-                <td className="px-4 py-2">₹ {l.avgPrice}</td>
-                <td className="px-4 py-2">₹ {l.minPrice}</td>
+            isLoading && (
+              <tr>
+                <td className="w-full text-center" colSpan={9}>
+                  <div className="dc h-80">
+                    <Loader className="animate-spin" />
+                  </div>
+                </td>
+              </tr>
+            )
+          }
+
+          {
+            !isLoading && list.length === 0 && (
+              <tr>
+                <td className="w-full text-center" colSpan={9}>
+                  <div className="dc h-80">
+                    No Data Available
+                  </div>
+                </td>
+              </tr>
+            )
+          }
+
+          {
+            !isLoading && list?.map(l => (
+              <tr key={l?._id} className="odd:bg-[#F8F8F8] text-[4px] xs:text-[6px] sm:text-[7px] md:text-[8px] lg:text-[10px] xl:text-xs font-medium">
+                <td className="px-4 py-2 text-[#32A071]">{l?.commodity}</td>
+                <td className="px-4 py-2 text-[#32A071]">{l?.variety}</td>
+                <td className="px-4 py-2">{new Date(l?.arrivalDate).toLocaleDateString()}</td>
+                <td className="px-4 py-2">{l?.state}</td>
+                <td className="px-4 py-2">{l?.district}</td>
+                <td className="px-4 py-2">{l?.market}</td>
+                <td className="px-4 py-2">₹ {l?.maxPrice}</td>
+                <td className="px-4 py-2">₹ {l?.avgPrice}</td>
+                <td className="px-4 py-2">₹ {l?.minPrice}</td>
               </tr>
             ))
           }
