@@ -235,7 +235,7 @@ function Tn() {
           {...getFloatingProps({
             ref: refs.setFloating,
             style: floatingStyles,
-            className: "w-min px-2 py-1 text-xs font-medium text-left text-[#3C3B3B] z-10 rounded bg-white border-2 border-yellow-300 whitespace-nowrap pointer-events-none select-none"
+            className: "w-min px-2 py-1 text-xs font-medium text-left text-[#3C3B3B] z-10 rounded-sm bg-white border-2 border-yellow-300 whitespace-nowrap pointer-events-none select-none"
           })}
         >
           <p className='text-base text-black'>{title}</p>

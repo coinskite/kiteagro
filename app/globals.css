@@ -1,8 +1,30 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap') layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 @layer base {
   body {
@@ -37,12 +59,11 @@
 
   input,
   textarea {
-    @apply block w-full px-3 py-2 text-sm text-gray-900 rounded focus:outline-none border border-gray-300 focus:outline-transparent;
+    @apply block w-full px-3 py-2 text-sm text-gray-900 rounded-sm focus:outline-hidden border border-gray-300 focus:outline-transparent;
   }
 
   select {
-    @apply w-full pl-4 pr-8 py-2 border appearance-none rounded focus:outline-none
-    bg-no-repeat bg-[url('../public/img/dropdown-arrow.png')] border-gray-300;
+    @apply w-full pl-4 pr-8 py-2 border appearance-none rounded-sm focus:outline-hidden bg-no-repeat bg-[url('../public/img/dropdown-arrow.png')] border-gray-300;
     background-position: 98%;
     background-size: 24px;
   }
@@ -56,30 +77,29 @@
   }
 }
 
-@layer components {
-  .df,
-  .dfc,
-  .dc {
-    @apply flex gap-2;
-  }
 
-  .df, .dc {
-    @apply items-center;
-  }
+@utility df {
+  @apply flex gap-2;
+  @apply items-center;
+}
 
-  .dfc {
-    @apply flex-col;
-  }
+@utility dfc {
+  @apply flex gap-2;
+  @apply flex-col;
+}
 
-  .dc {
-    @apply justify-center;
-  }
+@utility dc {
+  @apply flex gap-2;
+  @apply items-center;
+  @apply justify-center;
+}
 
-  .scroll-y {
-    @apply flex-1 overflow-y-auto;
-  }
-  
-  .no-scroll-bar::-webkit-scrollbar {
+@utility scroll-y {
+  @apply flex-1 overflow-y-auto;
+}
+
+@utility no-scroll-bar {
+  &::-webkit-scrollbar {
     height: 0;
     width: 0;
   }

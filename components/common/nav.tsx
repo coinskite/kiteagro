@@ -13,7 +13,7 @@ function Nav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="p-4 sm:px-6 lg:px-8 sticky top-0 z-[2] bg-white shadow-sm">
+    <nav className="p-4 sm:px-6 lg:px-8 sticky top-0 z-2 bg-white shadow-xs">
       <div className='df gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto'>
         <img
           className="mr-auto"

@@ -16,7 +16,7 @@ function Press() {
           For press request,get in touch
         </p>
 
-        <button className="block mx-auto md:py-2 md:px-4 text-xs sm:text-sm lg:text-base font-semibold text-[#13111B] bg-white rounded-sm">
+        <button className="block mx-auto md:py-2 md:px-4 text-xs sm:text-sm lg:text-base font-semibold text-[#13111B] bg-white rounded-xs">
           Contact Us
         </button>
       </div>

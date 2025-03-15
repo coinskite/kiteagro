@@ -13,7 +13,7 @@ function Header() {
             buyers/business people in Tamilnadu.
           </p>
 
-          <button className='mb-4 px-3 py-1.5 text-[10px] md:text-xs sm:text-[10px] xs:text-xs lg:text-base text-[#ffff] bg-[#22C954] font-medium rounded'>
+          <button className='mb-4 px-3 py-1.5 text-[10px] md:text-xs sm:text-[10px] xs:text-xs lg:text-base text-[#ffff] bg-[#22C954] font-medium rounded-sm'>
             Know more
           </button>
         </div>
@@ -26,7 +26,7 @@ function Header() {
       </div>
 
       <img
-        className="absolute inset-x-0 bottom-0 -z-[1]"
+        className="absolute inset-x-0 bottom-0 -z-1"
         src="/img/home/header-wave.png"
         alt=""
       />
