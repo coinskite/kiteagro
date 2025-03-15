@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import { toast } from 'sonner';
 import { z } from "zod";
+
+import { tamilNaduDistricts, commodities, states } from "@/utils/enums";
+import { useCreateCommodity } from "@/hooks/use-commodity";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -16,7 +17,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { tamilNaduDistricts } from "@/utils/enums";
 
 const formSchema = z.object({
   commodity: z.string().min(1, "Commodity is required"),
@@ -35,48 +35,34 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 function CommodityForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { mutate, isPending } = useCreateCommodity()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      commodity: "",
+      commodity: "Paddy",
       variety: "",
-      state: "",
-      district: "",
+      state: "Tamil Nadu",
+      district: "Theni",
       market: "",
-      maxPrice: undefined,
-      avgPrice: undefined,
-      minPrice: undefined,
+      arrivalDate: new Date(),
+      maxPrice: 100,
+      avgPrice: 100,
+      minPrice: 100,
     },
   })
 
   async function onSubmit(values: FormValues) {
-    setIsSubmitting(true)
-
-    try {
-      // Replace with your actual API endpoint
-      const response = await fetch("/api/commodities", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to submit data")
-      }
-
-      toast("Commodity data has been saved.")
-
-      form.reset()
-    } catch (error) {
-      console.error("Error submitting form:", error)
-      toast("Failed to save commodity data. Please try again.")
-    } finally {
-      setIsSubmitting(false)
+    const payload = {
+      ...values,
+      arrivalDate: values.arrivalDate?.toISOString(),
     }
+
+    mutate(payload, {
+      onSuccess: () => {
+        form.reset()
+      }
+    })
   }
 
   return (
@@ -96,9 +82,69 @@ function CommodityForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Commodity</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter commodity name" {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Commodity" />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent>
+                        {commodities.map(c => (
+                          <SelectItem key={c} value={c}>{c}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>State</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a state" />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent>
+                        {states.map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="district"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>District</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a district" />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent className="max-h-80">
+                        {tamilNaduDistricts.map((dist) => (
+                          <SelectItem key={dist} value={dist}>
+                            {dist}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -140,45 +186,6 @@ function CommodityForm() {
                         <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
                       </PopoverContent>
                     </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter state" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="district"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>District</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a state" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {tamilNaduDistricts.map((dist) => (
-                          <SelectItem key={dist} value={dist}>
-                            {dist}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -241,8 +248,12 @@ function CommodityForm() {
               />
             </div>
 
-            <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
-              {isSubmitting ? (
+            <Button
+              type="submit"
+              className="w-full mt-2"
+              disabled={isPending}
+            >
+              {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Submitting...

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
+
 import ClientWrapper from "@/components/common/client-arapper";
 import Footer from "@/components/common/footer";
 import Nav from "@/components/common/nav";
@@ -23,6 +25,8 @@ function RootLayout({ children }: props) {
           {children}
           <Footer />
         </ClientWrapper>
+
+        <Toaster />
       </body>
     </html>
   )

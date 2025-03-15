@@ -1,7 +1,7 @@
+import { toast } from "sonner";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllCommodidies, getCommodityById, createCommodity, updateCommodity, deleteCommodity } from "../actions/commodities";
-import { toast } from "sonner";
 
 export function useCommodity(query: any) {
   return useQuery({
@@ -23,7 +23,8 @@ export function useCreateCommodity() {
   return useMutation({
     mutationFn: (data: any) => createCommodity(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["commodities"] });
+      queryClient.invalidateQueries({ queryKey: ["commodities"] })
+      toast("Commodity created successfully")
     },
     onError: () => {
       toast("Failed to create commodity")
@@ -37,7 +38,8 @@ export function useUpdateCommodity() {
   return useMutation({
     mutationFn: (data: any) => updateCommodity(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["commodities"] });
+      queryClient.invalidateQueries({ queryKey: ["commodities"] })
+      toast("Commodity updated successfully")
     },
     onError: () => {
       toast("Failed to update commodity")
@@ -51,7 +53,8 @@ export function useDeleteCommodity() {
   return useMutation({
     mutationFn: (id: string) => deleteCommodity(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["commodities"] });
+      queryClient.invalidateQueries({ queryKey: ["commodities"] })
+      toast("Commodity deleted successfully")
     },
     onError: () => {
       toast("Failed to delete commodity")

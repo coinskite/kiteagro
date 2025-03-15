@@ -9,14 +9,14 @@ import Table from "./table";
 
 function Commodity() {
   const [filters, setFilters] = useState({
-    state: "",
-    district: "",
-    market: "",
-    variety: "",
-    commodity: ""
+    commodity: "Paddy",
+    state: "Tamil Nadu",
+    district: "Theni",
   })
 
   const { data, isLoading } = useCommodity(filters)
+
+  const filteredData = isLoading ? [] : data?.[0]
 
   function updateFilters(params: any) {
     setFilters({
@@ -27,7 +27,7 @@ function Commodity() {
 
   return (
     <>
-      <Header updateFilters={updateFilters} />
+      <Header filteredData={filteredData} updateFilters={updateFilters} />
       <Table list={data || []} isLoading={isLoading} />
     </>
   )
